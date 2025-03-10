@@ -21,7 +21,7 @@ class Controller extends \MapasCulturais\Controllers\EntityController
         $app = App::i();
         $em = $app->em;
 
-        if ($app->user->is('saasAdmin')) {
+        if (!$app->user->is('saasAdmin')) {
             $app->pass();
         }
 
