@@ -4,6 +4,7 @@ use MApasCulturais\Entities;
 $config_plugins = [
     'plugins' => [
         'MultipleLocalAuth',
+        'ValuersManagement',
         'AdminLoginAsUser',
         'CreateGeoDivisions',
         'Analytics',

@@ -26,6 +26,7 @@ services:
       - ../plugins/CreateGeoDivisions:/var/www/src/plugins/CreateGeoDivisions
       - ../plugins/SettingsPa:/var/www/src/plugins/SettingsPa
       - ../plugins/SpamDetector:/var/www/src/plugins/SpamDetector
+      - ../plugins/ValuersManagement:/var/www/src/plugins/ValuersManagement
 
     environment:
       - PENDING_PCACHE_RECREATION_INTERVAL=3
