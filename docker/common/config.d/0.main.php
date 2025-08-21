@@ -31,4 +31,11 @@ return [
     'app.geoDivisionsFilters' => [15],
     
     'app.geoDivisionsShowAgentRI' => true,
+
+    'ini.set' => [
+        'API opportunity/findRegistrations' => [
+            'memory_limit' => '2056M',
+            'max_execution_time' => -1
+        ],
+    ],
 ];
