@@ -1,0 +1,8 @@
+.mc-mandatory-fields-message.alert.warning {
+    margin-top: 10px;
+    max-width: 1156px; 
+    margin-left: auto;
+    margin-right: auto;
+    padding: 15px; 
+    box-sizing: border-box;
+}
