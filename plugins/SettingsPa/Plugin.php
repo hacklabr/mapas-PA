@@ -153,7 +153,8 @@ class Plugin extends \MapasCulturais\Plugin
     {
         $app = App::i();
 
-        $def = new \MapasCulturais\Definitions\Taxonomy(55, 'segmento','Segmento cultural',  [
+        $def = new \MapasCulturais\Definitions\Taxonomy(55, 'segmento','Segmento cultural',  
+            [
                 "Artes Visuais",
                 "Artesanato",
                 "Audiovisual",
@@ -175,7 +176,9 @@ class Plugin extends \MapasCulturais\Plugin
                 "Patrimônio Cultural Material",
                 "Pontos e Pontões de Cultura",
                 "Teatro",
-            ]
+            ],
+            
+            i::__("Você deve informar ao menos um Segmento cultural")
         );
 
         $app->registerTaxonomy(Agent::class, $def);
