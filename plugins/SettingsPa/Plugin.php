@@ -47,6 +47,29 @@ class Plugin extends \MapasCulturais\Plugin
             $this->part('pa-footer-support');
         });
 
+        
+        $app->hook('auth.successful,GET(panel.<<*>>):before, GET(<<*>>.<<edit|create|single>>):before,', function() use($app){
+            $url = $app->user->profile->editUrl .'?notification_handler=true';
+            $entity = $this->requestedEntity;
+            $redirect = false;
+                if($agent = $app->user->profile){
+                    if (!$agent->terms['segmento'] && ($entity === null || !$entity->equals($agent))) {
+                        $redirect = true;
+                        if ($redirect) {
+                            $app->redirect($url);
+                        }
+                    } 
+                }
+        });
+        
+        $app->hook('template(agent.edit.entity-info-validation):begin', function() use($app){
+            if(isset($_GET['notification_handler']) && $_GET['notification_handler'] == 'true'){
+                $app->view->enqueueStyle('app-v2', 'mandatory-fields-message', 'css/mandatory-fields-message.css');
+                $this->part('mandatory-fields-message');
+            }
+        });
+      
+
         $app->hook("registrationFieldTypes.saveToEntity", function($entity_field, $value) use ($app){
             if($entity_field == '@terms:segmento') {
                 $this->terms['segmento'] = $value;
