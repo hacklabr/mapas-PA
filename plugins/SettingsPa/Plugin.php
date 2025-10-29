@@ -48,7 +48,7 @@ class Plugin extends \MapasCulturais\Plugin
         });
 
         
-        $app->hook('auth.successful,GET(panel.<<*>>):before, GET(<<*>>.<<edit|create|single>>):before,', function() use($app){
+        $app->hook('GET(panel.<<*>>):before, GET(<<*>>.<<edit|create|single>>):before, auth.successful', function() use($app){
             $url = $app->user->profile->editUrl .'?notification_handler=true';
             $entity = $this->requestedEntity;
             $redirect = false;
