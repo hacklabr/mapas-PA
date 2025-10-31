@@ -6,6 +6,8 @@ return [
     'app.siteDescription' => "O Mapa Cultural do Pará é uma plataforma colaborativa que reúne informações sobre agentes, espaços, eventos, projetos culturais e oportunidades",
 
     'themes.active' => "MapasPA",
+    
+    'app.redirect_profile_validate' => env('APP_REDIRECT_PROFILE_VALIDATE', true),
 
     'app.lcode' => 'pt_BR',
     'homeHeader.banner' => 'img/banner-paulo-gustavo.png',
