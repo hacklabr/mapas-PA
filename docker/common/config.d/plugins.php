@@ -41,6 +41,7 @@ $config_plugins = [
                 "images_size_home" => "60%",
                 "action_home_text" => 'Acessar edital',
                 "action_home_link" => 'https://mapacultural.pa.gov.br/oportunidade/539/',
+                "remove_other_segment" => env("REMOVE_OTHER_SEGMENT", false),
             ]
         ],
         
