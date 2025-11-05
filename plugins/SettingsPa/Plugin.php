@@ -156,7 +156,7 @@ class Plugin extends \MapasCulturais\Plugin
         ];
 
         // Insere "Outros" entre "Música" e "Patrimônio Cultural Imaterial"
-        if($this->config['remove_other_segment']) {
+        if(!$this->config['remove_other_segment']) {
             array_splice($segmento_options, 16, 0, "Outros");
         }
 
