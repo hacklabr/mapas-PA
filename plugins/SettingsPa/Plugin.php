@@ -29,6 +29,8 @@ class Plugin extends \MapasCulturais\Plugin
             "action_home_text" => env("HC_TEXT_ACTIONS_HOME", ""),
 
             "action_home_link" => env("HC_LINK_ACTIONS_HOME", "#"),
+
+            "remove_other_segment" => env("REMOVE_OTHER_SEGMENT", false),
         ];
 
         parent::__construct($config);
@@ -130,30 +132,35 @@ class Plugin extends \MapasCulturais\Plugin
     {
         $app = App::i();
 
-        $def = new \MapasCulturais\Definitions\Taxonomy(55, 'segmento','Segmento cultural',  
-            [
-                "Artes Visuais",
-                "Artesanato",
-                "Audiovisual",
-                "Circo",
-                "Cultura Alimentar",
-                "Cultura Digital",
-                "Cultura Gospel",
-                "Cultura Urbana e Periférica",
-                "Culturas Afro-Brasileiras",
-                "Culturas Indígenas",
-                "Culturas Populares",
-                "Dança",
-                "Livro e Leitura",
-                "Moda e Design",
-                "Museus e Memoriais de Base Comunitária",
-                "Música",
-                "Outros",
-                "Patrimônio Cultural Imaterial",
-                "Patrimônio Cultural Material",
-                "Pontos e Pontões de Cultura",
-                "Teatro",
-            ],
+        $segmento_options = [
+            "Artes Visuais",
+            "Artesanato",
+            "Audiovisual",
+            "Circo",
+            "Cultura Alimentar",
+            "Cultura Digital",
+            "Cultura Gospel",
+            "Cultura Urbana e Periférica",
+            "Culturas Afro-Brasileiras",
+            "Culturas Indígenas",
+            "Culturas Populares",
+            "Dança",
+            "Livro e Leitura",
+            "Moda e Design",
+            "Museus e Memoriais de Base Comunitária",
+            "Música",
+            "Patrimônio Cultural Imaterial",
+            "Patrimônio Cultural Material",
+            "Pontos e Pontões de Cultura",
+            "Teatro",
+        ];
+
+        // Insere "Outros" entre "Música" e "Patrimônio Cultural Imaterial"
+        if($this->config['remove_other_segment']) {
+            array_splice($segmento_options, 16, 0, "Outros");
+        }
+
+        $def = new \MapasCulturais\Definitions\Taxonomy(55, 'segmento','Segmento cultural',  $segmento_options,
             
             i::__("Você deve informar ao menos um Segmento cultural")
         );
