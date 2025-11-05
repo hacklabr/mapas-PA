@@ -40,4 +40,6 @@ return [
             'max_execution_time' => -1
         ],
     ],
+    /* Define se o usuário será redirecionado para a edição do perfil caso o perfil não esteja validado */
+    'app.redirect_profile_validate' => true,
 ];
