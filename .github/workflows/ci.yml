@@ -5,51 +5,65 @@ on:
     tags:
       - "v*.*.*"
     branches:
-    - "master"
-    - "develop"
+      - "master"
+      - "develop"
+
+env:
+  # Define o nome da imagem apontando para o GHCR
+  # github.repository contém "dono/repositorio"
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
 
 jobs:
   docker:
     runs-on: ubuntu-latest
+    
+    # 👷‍♂️ DevOps: Permissões necessárias para o GITHUB_TOKEN escrever no GHCR
+    permissions:
+      contents: read
+      packages: write
+
     steps:
-      -
-        name: Checkout
-        uses: actions/checkout@v3
-      -
-        name: Docker meta
-        id: meta
-        uses: docker/metadata-action@v4
+      - name: Checkout
+        uses: actions/checkout@v4
         with:
-          images: |
-            docker.io/hacklab/mapas-pa 
+          submodules: recursive # 🏛️ Architect: Maneira mais limpa de lidar com submodules
+
+      - name: Docker meta
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          # Configura as tags automaticamente baseadas no evento (branch ou tag semver)
           tags: |
             type=ref,event=branch
             type=semver,pattern={{version}}
             type=semver,pattern={{major}}.{{minor}}
             type=semver,pattern={{major}}
-      -
-        name: Set up QEMU
-        uses: docker/setup-qemu-action@v2
-      -
-        name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v2
-      -
-        name: Login to Docker Hub
+            type=sha,format=long # Útil para debug exato do commit
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Login to GitHub Container Registry
         if: github.event_name != 'pull_request'
-        uses: docker/login-action@v2
+        uses: docker/login-action@v3
         with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
-          
-      - name: Initialize and update submodules
-        run: |
-          git submodule update --init --recursive
-      -
-        name: Build and push
-        uses: docker/build-push-action@v4
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and push
+        uses: docker/build-push-action@v5
         with:
-          file: ./docker/Dockerfile
           context: .
+          file: ./docker/Dockerfile
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+          # 👷‍♂️ DevOps: Cache nativo do GitHub Actions para acelerar o build
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
