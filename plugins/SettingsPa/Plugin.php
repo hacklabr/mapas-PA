@@ -116,6 +116,52 @@ class Plugin extends \MapasCulturais\Plugin
            
         }, 10000);
 
+        // Adiciona a coluna "Divisão geográfica do responsável – RI" ao lado da coluna "País"
+        $app->hook('component(opportunity-registrations-table).additionalHeaders', function (&$defaultHeaders, &$default_select, &$available_fields) use ($app) {
+            $geoRiHeader = [
+                'text' => 'Divisão geográfica do responsável – RI',
+                'value' => 'owner?.geoRI',
+                'slug' => 'geoRI',
+            ];
+
+            $insertPos = null;
+            foreach ($defaultHeaders as $i => $header) {
+                if (($header['value'] ?? null) === 'owner?.geoPais') {
+                    $insertPos = $i + 1;
+                    break;
+                }
+            }
+            if ($insertPos !== null) {
+                array_splice($defaultHeaders, $insertPos, 0, [$geoRiHeader]);
+            } else {
+                $defaultHeaders[] = $geoRiHeader;
+            }
+
+            $default_select = preg_replace(
+                '/owner\.\{([^}]+)\}/',
+                'owner.{$1,geoRI}',
+                $default_select
+            );
+        });
+
+        // Coloca a coluna "Divisão geográfica do responsável – RI" ao lado da coluna "País"
+        $app->hook('SpreadsheetJob(registrations-spreadsheets).getHeader:after', function ($job, &$result) {
+            if (!isset($result['ownerGeoRI'])) {
+                return;
+            }
+            
+            $label = i::__('Divisão geográfica do responsável – RI');
+            $ordered = [];
+            foreach ($result as $key => $value) {
+                if ($key === 'ownerGeoRI') {
+                    $ordered['geoRI'] = $label;
+                    continue;
+                }
+                $ordered[$key] = $value;
+            }
+            $result = $ordered;
+        });
+
         $this->reopenEvaluations();
     }
 
