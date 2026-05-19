@@ -26,6 +26,8 @@ $config_plugins = [
                 'agent_required_fields' => [
                     'emailPrivado' => true,
                     'telefone1' => true,
+                ],
+                'agent_edit_location_required_fields' => [
                     'En_Estado' => true,
                     'En_Municipio' => true,
                 ],
