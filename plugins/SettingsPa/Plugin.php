@@ -31,6 +31,8 @@ class Plugin extends \MapasCulturais\Plugin
             "action_home_link" => env("HC_LINK_ACTIONS_HOME", "#"),
 
             "remove_other_segment" => env("REMOVE_OTHER_SEGMENT", false),
+
+            'agent_edit_location_required_fields' => [],
         ];
 
         parent::__construct($config);
@@ -102,7 +104,39 @@ class Plugin extends \MapasCulturais\Plugin
             foreach($self->config['agent_required_fields'] as $field => $bool){
                 $metadata[$field]->is_required = $bool;
             }
+
+            $requiredMessage = i::__('O campo é obrigatório');
+            foreach ($self->config['agent_edit_location_required_fields'] as $field => $bool) {
+                if (!$bool || !isset($metadata[$field])) {
+                    continue;
+                }
+                $metadata[$field]->config['should_validate'] = function ($entity, $value) use ($requiredMessage) {
+                    if (!$entity->id) {
+                        return false;
+                    }
+                    if ($value === null || $value === '' || (is_array($value) && count($value) === 0)) {
+                        return $requiredMessage;
+                    }
+                    return false;
+                };
+            }
         }, 10000);
+
+        // Marca Estado/Município como obrigatórios na edição.
+        $app->hook('GET(agent.edit):before', function () use ($app, $self) {
+            $self->applyAgentEditLocationRequired($app, true);
+        }, 10000);
+
+        $app->hook('entity(Agent).propertiesMetadata', function (&$result) use ($app, $self) {
+            if (!$self->isAgentEditRequest($app)) {
+                return;
+            }
+            foreach ($self->config['agent_edit_location_required_fields'] as $field => $required) {
+                if ($required && isset($result[$field])) {
+                    $result[$field]['required'] = true;
+                }
+            }
+        });
 
         $app->hook("<<GET|POST|PATCH|PUT>>(agent.<<*>>):before", function () use ($app, $self) {
             $entity = $this->requestedEntity;
@@ -172,6 +206,26 @@ class Plugin extends \MapasCulturais\Plugin
         $this->registerTaxonomies();
 
         $app->registerController('pasettings', Controller::class);
+    }
+
+    protected function isAgentEditRequest(App $app): bool
+    {
+        $controller = $app->view->controller ?? null;
+
+        return $controller
+            && ($controller->id ?? '') === 'agent'
+            && ($controller->action ?? '') === 'edit';
+    }
+
+    protected function applyAgentEditLocationRequired(App $app, bool $required): void
+    {
+        $metadata = $app->getRegisteredMetadata(Agent::class);
+
+        foreach ($this->config['agent_edit_location_required_fields'] as $field => $bool) {
+            if ($bool && isset($metadata[$field])) {
+                $metadata[$field]->is_required = $required;
+            }
+        }
     }
 
     public function registerTaxonomies()
