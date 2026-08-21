@@ -3,8 +3,6 @@
 > Criado em: 2026-08-21 · Última revisão: 2026-08-21
 > Regra: doc desatualizado é corrigido ou marcado como obsoleto — nunca deixado apodrecendo em silêncio.
 
-<!-- TODO: preencher com as jornadas dos principais atores (gestor cultural, agente cultural, avaliador, administrador) após análise do código legado (STAGE 4). -->
-
 ## Atores
 
 - Visitante / cidadão
@@ -45,3 +43,33 @@ arquivos vazios, envio de comunicações em massa e outras operações de suport
 ### J07 — Gestor de dados consulta BI
 O gestor de dados visualiza painéis do Metabase sobre oportunidades, usuários,
 entidades, agentes, espaços, eventos e projetos.
+
+### J08 — Usuário acessa com autenticação social ou Gov.br
+O usuário escolhe o provedor de login (Google, Gov.br, Decidim, etc.), autoriza
+o acesso e, quando necessário, fornece um e-mail alternativo para resolver
+conflitos de conta.
+
+### J09 — Usuário recupera conta excluída
+Ao fazer login com senha correta em uma conta na lixeira, o usuário recebe um
+e-mail de confirmação e, após confirmar, a conta e as entidades relacionadas
+são restauradas.
+
+### J10 — Administrador atua como outro usuário
+O administrador usa a função "logar como" para acessar o painel como outro
+usuário, executa ações de suporte e retorna ao seu perfil original.
+
+### J11 — Visitante ajusta acessibilidade
+O visitante ativa V-Libras, aumenta/diminui a fonte ou alterna o contraste do
+site.
+
+### J12 — Administrador modera spam
+O administrador recebe alerta de conteúdo suspeito, revisa termos detectados,
+marcar o conteúdo como "não spam" ou move usuário/conteúdo para a lixeira.
+
+### J13 — Gestor distribui avaliadores por planilha
+O gestor de edital envia planilha Excel com comissões de avaliadores (modo
+complementar ou substituir), processa o arquivo e acompanha o histórico.
+
+### J14 — Operador importa divisões geográficas
+O operador carrega CSV de municípios ou Regiões de Integração no plugin
+`CreateGeoDivisions` para atualizar a base geográfica.

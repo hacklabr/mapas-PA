@@ -52,6 +52,47 @@ oportunidades específicas do edital Paulo Gustavo.
 Devem existir endpoints administrativos para estatísticas, remoção de arquivos
 vazios, envio de e-mails em massa e reabertura de avaliações (uso interno).
 
+### RF-11 — Acessibilidade
+A plataforma deve oferecer controles de acessibilidade: V-Libras, ajuste de
+tamanho de fonte e alternância de contraste.
+
+### RF-12 — Impersonação administrativa
+Administradores devem poder logar como outro usuário para suporte, com indicação
+visual no header e capacidade de retorno ao perfil original.
+
+### RF-13 — Auditoria de requisições
+A plataforma deve registrar logs de requisições (método, rota, IP, navegador,
+SO, dispositivo) e ações de remoção de entidades, com interface de consulta.
+
+### RF-14 — Autenticação social e Gov.br
+Além da autenticação local por e-mail/CPF, devem ser suportados provedores
+Google, Facebook, LinkedIn, Twitter, Login Cidadão, Gov.br e Decidim.
+
+### RF-15 — Regras de segurança de autenticação
+A autenticação local deve impor força de senha, reCAPTCHA, bloqueio por
+tentativas, confirmação de e-mail, recuperação de senha e troca forçada de
+senha.
+
+### RF-16 — Detecção e moderação de spam
+A plataforma deve monitorar criação/edição de entidades por termos suspeitos,
+notificar administradores e mover conteúdo/usuário para lixeira quando termos
+estiverem na lista de bloqueio.
+
+### RF-17 — Gestão de avaliadores em lote
+Gestores de edital devem poder distribuir avaliadores por comissão via upload
+de planilha Excel, com histórico de processamentos.
+
+### RF-18 — Busca por metadados
+A busca por palavra-chave deve considerar campos de metadados configurados
+(ex.: município, logradouro).
+
+### RF-19 — Importação de divisões geográficas
+Deve ser possível importar divisões geográficas customizadas a partir de CSVs.
+
+### RF-20 — Analytics
+A plataforma deve inserir script de analytics na tag `<head>` com chave
+configurável via ambiente.
+
 ## Requisitos não-funcionais (RNF)
 
 - **RNF-01** — A aplicação deve rodar em containers Docker (Nginx, PHP-FPM,
@@ -71,6 +112,11 @@ vazios, envio de e-mails em massa e reabertura de avaliações (uso interno).
 - A coluna `geoRI` é exibida na tabela de inscrições e exportada em planilhas.
 - Os painéis do Metabase carregam corretamente.
 - As rotas amigáveis dos editais LPG resolvem para as oportunidades corretas.
+- Login por Gov.br, Google e CPF funcionam sem erros.
+- Controles de acessibilidade (V-Libras, contraste, fonte) são exibidos e funcionam.
+- Logs de auditoria são registrados e consultáveis.
+- Distribuição de avaliadores por planilha atualiza as inscrições corretamente.
+- Testes de `MultipleLocalAuth` passam (`composer install && vendor/bin/phpunit`).
 
 ## Fora do escopo
 

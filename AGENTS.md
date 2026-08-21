@@ -16,11 +16,13 @@ A fonte de verdade do produto é o PRD vivo em `docs/reference/prd.md`.
 
 | Ação | Comando |
 |---|---|
+| Build geral (Docker) | `docker-compose up --build` |
 | Build do tema | `cd themes/MapasPA && npm run build` |
+| Build de um plugin | `cd plugins/<NOME_DO_PLUGIN> && npm run build` |
 | Watch do tema | `cd themes/MapasPA && npm run watch` |
-| Testes | <!-- TODO: preencher (nenhum comando detectado no inventário inicial) --> |
-| Lint | <!-- TODO: preencher (nenhum comando detectado no inventário inicial) --> |
-| Typecheck | <!-- TODO: preencher (nenhum comando detectado no inventário inicial) --> |
+| Testes | `cd plugins/MultipleLocalAuth && composer install && ./vendor/bin/phpunit` |
+| Lint | <!-- TODO: preencher (não detectado no inventário) --> |
+| Typecheck | <!-- TODO: preencher (não detectado no inventário) --> |
 
 Rode os comandos relevantes antes de declarar qualquer tarefa pronta.
 

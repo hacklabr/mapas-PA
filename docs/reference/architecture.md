@@ -38,6 +38,56 @@ A plataforma é uma instalação do Mapas Culturais (PHP) customizada via:
 - Configurações ativas em `docker/common/config.d/plugins.php` e
   `docker/production/config.d/authentication.php`.
 
+#### `Accessibility`
+- Widget V-Libras, controles de fonte/contraste e ícones customizados.
+- Componentes: `accessibility-controls`, `accessibility-controls-itens`.
+
+#### `AdminLoginAsUser`
+- Impersonação administrativa via sessão `auth.asUserId`.
+- Botões de "logar como" na gestão de usuários e página do agente.
+
+#### `Analytics`
+- Inserção de script de analytics na tag `<head>` (BaseV1 e BaseV2).
+- Chave configurável via `env('ANALYTICS_KEY')`.
+
+#### `CreateGeoDivisions`
+- Importação de divisões geográficas a partir de CSVs em `import-files/`.
+
+#### `MapasBlame`
+- Auditoria de requisições e remoção de entidades.
+- Controller `blame`, entidade `Blame`, tabelas `blame_request`/`blame_log`.
+- Componente: `blame-table`.
+
+#### `Metabase`
+- Incorporação de dashboards públicos do Metabase.
+- Controller `metabase` com rotas `dashboard` e `panel`.
+- Componentes: `home-metabase`, `metabase-dashboard`, `list-dashboard`.
+
+#### `MetadataKeyword`
+- Extensão da busca por palavra-chave para campos de metadados configurados.
+- Altera DQL dos repositórios via hooks.
+
+#### `MultipleLocalAuth`
+- Autenticação local (e-mail/CPF) + social (Google, Facebook, LinkedIn,
+  Twitter, Login Cidadão, Gov.br, Decidim).
+- Regras de força de senha, reCAPTCHA, bloqueio por tentativas, confirmação de
+  e-mail, recuperação de senha, troca forçada e recuperação de conta na
+  lixeira.
+- Services: `AccountLifecycleService.php`, `GovBr/GovBrAccountService.php`.
+- Componentes: `login`, `create-account`, `change-password`,
+  `password-strongness`.
+
+#### `SpamDetector`
+- Monitoramento de criação/edição de entidades por termos suspeitos.
+- Notificação de administradores e movimentação para lixeira
+  (`status = -10`).
+- Componentes: `spam-add-config`, `spam-warning`.
+
+#### `ValuersManagement`
+- Distribuição de avaliadores em lote via planilha Excel.
+- Atualiza `registration.valuers` e `valuers_exceptions_list`.
+- Componente: `evalmaster-upload`.
+
 ### Infraestrutura
 - Nginx (`docker/nginx.conf`).
 - PHP-FPM com imagem base `hacklab/mapasculturais:7.8.6`
