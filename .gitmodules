@@ -28,3 +28,6 @@
 [submodule "plugins/ValuersManagement"]
 	path = plugins/ValuersManagement
 	url = https://github.com/mapasculturais/plugin-ValuersManagement.git
+[submodule "plugins/PCacheRepair"]
+	path = plugins/PCacheRepair
+	url = https://github.com/mapasculturais/plugin-PCacheRepair.git

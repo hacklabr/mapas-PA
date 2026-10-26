@@ -10,6 +10,7 @@ $config_plugins = [
         'Analytics',
         'Accessibility',
         'SpamDetector',
+        'PCacheRepair',
 
         'MapasBlame' => [
             'namespace' => 'MapasBlame',
