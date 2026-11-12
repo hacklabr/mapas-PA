@@ -11,6 +11,7 @@ $config_plugins = [
         'Accessibility',
         'SpamDetector',
         'PCacheRepair',
+        'ConectaEnte',
 
         'MapasBlame' => [
             'namespace' => 'MapasBlame',
